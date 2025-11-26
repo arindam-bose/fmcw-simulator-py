@@ -7,22 +7,22 @@ from scipy.constants import c
 class Radar:
 
     class Transmitter:
-        def __init__(self, f0, B, Tc, M, tx_positions):
+        def __init__(self, f0, B, Tc, M, pos):
             self.f0 = f0
             self.B = B
             self.Tc = Tc
             self.M = M
-            self.tx_positions = np.array(tx_positions)
+            self.pos = np.array(pos)
             self.k = B / Tc  # chirp slope
 
         def generate_chirp(self, t):
             return np.exp(1j * 2 * np.pi * (self.f0 * t + 0.5 * self.k * t**2))
 
     class Receiver:
-        def __init__(self, fs, N, rx_positions):
+        def __init__(self, fs, N, pos):
             self.fs = fs
             self.N = N
-            self.rx_positions = np.array(rx_positions)
+            self.pos = np.array(pos)
 
     def __init__(self, transmitter: Transmitter, receiver: Receiver):
         self.tx = transmitter

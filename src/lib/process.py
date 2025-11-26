@@ -7,7 +7,7 @@ from lib.target import Target
 
 class Process:
     def __init__(self, radar: Radar, targets: List[Target], 
-                 interferer: InterfererRadar, noise_std=1e-3):
+                 interferer: InterfererRadar=None, noise_std=1e-3):
         self.radar = radar
         self.targets = targets
         self.interferer = interferer
@@ -18,12 +18,13 @@ class Process:
         Tc = self.radar.tx.Tc
         Ns = int(fs * Tc)
         t = np.arange(Ns) / fs
+
         k = self.radar.tx.k
         f0 = self.radar.tx.f0
         lam = c / f0
 
-        tx_pos = np.array(self.radar.tx.tx_positions)   # shape (M, 2)
-        rx_pos = np.array(self.radar.rx.rx_positions)   # shape (N, 2)
+        tx_pos = np.array(self.radar.tx.pos)   # shape (M, 2)
+        rx_pos = np.array(self.radar.rx.pos)   # shape (N, 2)
 
         # Transmit chirp
         tx_chirp = self.radar.tx.generate_chirp(t)
